@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Compressor | CreatifyTools</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="tool-page-container">
+    <a href="../index.html" class="back-link">← Back to Tools</a>
+    <div class="tool-card-custom">
+      <h1>🗜️ Image Compressor</h1>
+      <p>Upload an image and compress it with quality reduction</p>
+      <input type="file" id="upload" accept="image/*">
+      <canvas id="canvas" style="display:none"></canvas>
+      <div class="preview-area" id="preview"></div>
+      <button id="compressBtn" class="btn">Compress Image</button>
+      <button id="downloadBtn" class="btn" style="display:none">Download Image</button>
+    </div>
+  </div>
+  <script src="../js/script.js"></script>
+  <script>
+    const upload = document.getElementById('upload');
+    const canvas = document.getElementById('canvas');
+    const previewDiv = document.getElementById('preview');
+    const compressBtn = document.getElementById('compressBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
+    let compressedDataUrl = null;
+    let originalImgSrc = null;
+
+    upload.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          const img = new Image();
+          img.onload = () => {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            const originalDataUrl = canvas.toDataURL('image/jpeg', 1);
+            originalImgSrc = originalDataUrl;
+            previewDiv.innerHTML = `<img src="${originalDataUrl}" style="max-width:100%"><p style="margin-top:8px">✅ Original image loaded</p>`;
+            compressBtn.style.display = 'inline-block';
+            downloadBtn.style.display = 'none';
+          };
+          img.src = ev.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    compressBtn.addEventListener('click', () => {
+      if (originalImgSrc) {
+        const imgElement = new Image();
+        imgElement.onload = () => {
+          canvas.width = imgElement.width;
+          canvas.height = imgElement.height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(imgElement, 0, 0);
+          compressedDataUrl = canvas.toDataURL('image/jpeg', 0.6);
+          previewDiv.innerHTML += `<div style="margin-top:20px"><img src="${compressedDataUrl}" style="max-width:100%"><p style="margin-top:8px">✨ Compressed version (60% quality)</p></div>`;
+          downloadBtn.style.display = 'inline-block';
+        };
+        imgElement.src = originalImgSrc;
+      }
+    });
+
+    downloadBtn.addEventListener('click', () => {
+      if (compressedDataUrl) {
+        window.redirectToShortlink(compressedDataUrl, "compressed_image.jpg", "image-compressor");
+      }
+    });
+  </script>
+</body>
+</html>
