@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meme Generator | CreatifyTools</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="tool-page-container">
+    <a href="../index.html" class="back-link">← Back to Tools</a>
+    <div class="tool-card-custom">
+      <h1>😂 Meme Generator</h1>
+      <p>Upload image and add custom text</p>
+      <input type="file" id="upload" accept="image/*">
+      <input type="text" id="topText" placeholder="Top text">
+      <input type="text" id="bottomText" placeholder="Bottom text">
+      <button id="generateMemeBtn" class="btn">Generate Meme</button>
+      <button id="downloadMemeBtn" class="btn" style="display:none">Download Meme</button>
+      <div style="text-align: center; margin-top: 20px;">
+        <canvas id="memeCanvas" width="500" height="400" style="max-width:100%; height:auto; border-radius: 16px; border: 1px solid #eee;"></canvas>
+      </div>
+    </div>
+  </div>
+  <script src="../js/script.js"></script>
+  <script>
+    const upload = document.getElementById('upload');
+    const topText = document.getElementById('topText');
+    const bottomText = document.getElementById('bottomText');
+    const generateBtn = document.getElementById('generateMemeBtn');
+    const downloadBtn = document.getElementById('downloadMemeBtn');
+    const canvas = document.getElementById('memeCanvas');
+    const ctx = canvas.getContext('2d');
+    let uploadedImg = null;
+
+    upload.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          const img = new Image();
+          img.onload = () => {
+            uploadedImg = img;
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            drawText();
+          };
+          img.src = ev.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    function drawText() {
+      if (!uploadedImg) return;
+      ctx.drawImage(uploadedImg, 0, 0, canvas.width, canvas.height);
+      ctx.font = `bold ${Math.floor(canvas.height / 12)}px Impact`;
+      ctx.fillStyle = 'white';
+      ctx.strokeStyle = 'black';
+      ctx.lineWidth = 3;
+      ctx.textAlign = 'center';
+      const top = topText.value;
+      const bottom = bottomText.value;
+      if (top) {
+        ctx.fillText(top, canvas.width/2, 50);
+        ctx.strokeText(top, canvas.width/2, 50);
+      }
+      if (bottom) {
+        ctx.fillText(bottom, canvas.width/2, canvas.height - 30);
+        ctx.strokeText(bottom, canvas.width/2, canvas.height - 30);
+      }
+    }
+
+    generateBtn.addEventListener('click', () => {
+      if (!uploadedImg) {
+        alert('Please upload an image first');
+        return;
+      }
+      drawText();
+      downloadBtn.style.display = 'inline-block';
+    });
+
+    downloadBtn.addEventListener('click', () => {
+      const memeDataUrl = canvas.toDataURL('image/png');
+      window.redirectToShortlink(memeDataUrl, "meme.png", "meme-generator");
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Resizer | CreatifyTools</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="tool-page-container">
+    <a href="../index.html" class="back-link">← Back to Tools</a>
+    <div class="tool-card-custom">
+      <h1>📏 Image Resizer</h1>
+      <p>Upload an image and resize to custom dimensions</p>
+      <input type="file" id="upload" accept="image/*">
+      <div style="display: flex; gap: 16px; margin: 16px 0;">
+        <input type="number" id="widthInput" placeholder="Width (px)" value="500" style="width: 50%;">
+        <input type="number" id="heightInput" placeholder="Height (px)" value="500" style="width: 50%;">
+      </div>
+      <canvas id="canvas" style="display:none"></canvas>
+      <div class="preview-area" id="preview"></div>
+      <button id="resizeBtn" class="btn">Resize Image</button>
+      <button id="downloadBtn" class="btn" style="display:none">Download Image</button>
+    </div>
+  </div>
+  <script src="../js/script.js"></script>
+  <script>
+    const upload = document.getElementById('upload');
+    const canvas = document.getElementById('canvas');
+    const previewDiv = document.getElementById('preview');
+    const resizeBtn = document.getElementById('resizeBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const widthInput = document.getElementById('widthInput');
+    const heightInput = document.getElementById('heightInput');
+    let resizedDataUrl = null;
+    let uploadedImgSrc = null;
+
+    upload.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          const img = new Image();
+          img.onload = () => {
+            uploadedImgSrc = img.src;
+            previewDiv.innerHTML = `<img src="${img.src}" style="max-width:100%"><p>✅ Original uploaded</p>`;
+            resizeBtn.style.display = 'inline-block';
+            downloadBtn.style.display = 'none';
+          };
+          img.src = ev.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    resizeBtn.addEventListener('click', () => {
+      if (uploadedImgSrc) {
+        const img = new Image();
+        img.onload = () => {
+          const newWidth = parseInt(widthInput.value) || 500;
+          const newHeight = parseInt(heightInput.value) || 500;
+          canvas.width = newWidth;
+          canvas.height = newHeight;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, newWidth, newHeight);
+          resizedDataUrl = canvas.toDataURL('image/jpeg', 0.9);
+          previewDiv.innerHTML += `<div style="margin-top:20px"><img src="${resizedDataUrl}" style="max-width:100%"><p>✨ Resized to ${newWidth}x${newHeight}</p></div>`;
+          downloadBtn.style.display = 'inline-block';
+        };
+        img.src = uploadedImgSrc;
+      }
+    });
+
+    downloadBtn.addEventListener('click', () => {
+      if (resizedDataUrl) {
+        window.redirectToShortlink(resizedDataUrl, "resized_image.jpg", "image-resizer");
+      }
+    });
+  </script>
+</body>
+</html>
