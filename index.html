@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>CreatifyTools | Smart Tools for Everyone</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="animated-bg"></div>
+  
+  <div class="container">
+    <nav class="navbar">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">CT</span>
+        CreatifyTools
+      </a>
+      
+      <!-- ========== TOOLS CATEGORY SELECTOR (TABS) ========== -->
+      <div class="category-tabs">
+        <button class="category-tab active" data-category="all">🔥 All Tools</button>
+        <button class="category-tab" data-category="image">📷 Image Tools</button>
+        <button class="category-tab" data-category="social">📱 Social Tools</button>
+        <button class="category-tab" data-category="file">📄 File Tools</button>
+        <button class="category-tab" data-category="utility">⚙️ Utilities</button>
+      </div>
+      
+      <div class="nav-links">
+        <a href="index.html" class="active">Home</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+    </nav>
+  </div>
+
+  <div class="hero">
+    <div class="container">
+      <h1>Smart Tools for Everyone</h1>
+      <p>Free online tools for creators, students & everyday use</p>
+      <a href="#tools-section" class="hero-cta">Explore Tools →</a>
+    </div>
+  </div>
+
+  <div class="container" id="tools-section">
+    <!-- Image Tools Section -->
+    <div id="image-tools" class="tools-section" data-category="image">
+      <div class="section-title">
+        <span class="title-icon">📷</span>
+        <h2>Image Tools</h2>
+      </div>
+      <div class="card-grid">
+        <a href="tools/image-compressor.html" class="tool-card"><div class="tool-icon">🗜️</div><h3>Image Compressor</h3><p>Reduce size with canvas</p></a>
+        <a href="tools/image-resizer.html" class="tool-card"><div class="tool-icon">📏</div><h3>Image Resizer</h3><p>Resize any image</p></a>
+        <a href="tools/jpg-to-png.html" class="tool-card"><div class="tool-icon">🖼️→📸</div><h3>JPG → PNG</h3><p>Convert format</p></a>
+        <a href="tools/png-to-jpg.html" class="tool-card"><div class="tool-icon">📸→🖼️</div><h3>PNG → JPG</h3><p>High quality</p></a>
+      </div>
+    </div>
+
+    <!-- Social Tools Section -->
+    <div id="social-tools" class="tools-section" data-category="social">
+      <div class="section-title">
+        <span class="title-icon">📱</span>
+        <h2>Social Tools</h2>
+      </div>
+      <div class="card-grid">
+        <a href="tools/thumbnail-downloader.html" class="tool-card"><div class="tool-icon">▶️</div><h3>YT Thumbnail Downloader</h3><p>HD thumbnails</p></a>
+        <a href="tools/instagram-downloader.html" class="tool-card"><div class="tool-icon">📸</div><h3>Instagram Reel Downloader</h3><p>Get reels</p></a>
+      </div>
+    </div>
+
+    <!-- File Tools Section -->
+    <div id="file-tools" class="tools-section" data-category="file">
+      <div class="section-title">
+        <span class="title-icon">📄</span>
+        <h2>File Tools</h2>
+      </div>
+      <div class="card-grid">
+        <a href="tools/jpg-to-pdf.html" class="tool-card"><div class="tool-icon">📑</div><h3>JPG → PDF</h3><p>Convert images to PDF</p></a>
+        <a href="tools/pdf-to-jpg.html" class="tool-card"><div class="tool-icon">🖼️</div><h3>PDF → JPG</h3><p>Extract preview</p></a>
+      </div>
+    </div>
+
+    <!-- Utility Tools Section -->
+    <div id="utility-tools" class="tools-section" data-category="utility">
+      <div class="section-title">
+        <span class="title-icon">⚙️</span>
+        <h2>Utilities</h2>
+      </div>
+      <div class="card-grid">
+        <a href="tools/qr-generator.html" class="tool-card"><div class="tool-icon">📲</div><h3>QR Code Generator</h3><p>Create QR codes</p></a>
+        <a href="tools/password-generator.html" class="tool-card"><div class="tool-icon">🔐</div><h3>Password Generator</h3><p>Strong passwords</p></a>
+        <a href="tools/meme-generator.html" class="tool-card"><div class="tool-icon">😂</div><h3>Meme Generator</h3><p>Text overlay on image</p></a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <p>© 2025 CreatifyTools — free tools for everyone</p>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+  <script>
+    // Category Filter Functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const tabs = document.querySelectorAll('.category-tab');
+      const sections = document.querySelectorAll('.tools-section');
+      
+      tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          // Remove active class from all tabs
+          tabs.forEach(t => t.classList.remove('active'));
+          // Add active class to clicked tab
+          this.classList.add('active');
+          
+          const category = this.getAttribute('data-category');
+          
+          // Show/Hide sections based on category
+          sections.forEach(section => {
+            if (category === 'all' || section.getAttribute('data-category') === category) {
+              section.style.display = 'block';
+              section.style.animation = 'fadeInUp 0.5s ease';
+            } else {
+              section.style.display = 'none';
+            }
+          });
+        });
+      });
+    });
+  </script>
+</body>
+</html>
