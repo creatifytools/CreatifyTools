@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube Thumbnail Downloader | CreatifyTools</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .quality-btns { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px; justify-content: center; }
+  </style>
+</head>
+<body>
+  <div class="tool-page-container">
+    <a href="../index.html" class="back-link">← Back to Tools</a>
+    <div class="tool-card-custom">
+      <h1>▶️ YouTube Thumbnail Downloader</h1>
+      <p>Enter any YouTube video URL to get HD thumbnail</p>
+      <input type="text" id="urlInput" placeholder="https://www.youtube.com/watch?v=...">
+      <button id="getThumbBtn" class="btn">Get Thumbnail</button>
+      <div class="preview-area" id="preview"></div>
+      <div class="quality-btns" id="qualityBtns" style="display:none">
+        <button id="hdBtn" class="btn">Download HD (Maxres)</button>
+        <button id="mqBtn" class="btn">Download Medium</button>
+      </div>
+    </div>
+  </div>
+  <script src="../js/script.js"></script>
+  <script>
+    const urlInput = document.getElementById('urlInput');
+    const getThumbBtn = document.getElementById('getThumbBtn');
+    const previewDiv = document.getElementById('preview');
+    const qualityBtns = document.getElementById('qualityBtns');
+    let currentVideoId = '';
+
+    function extractVideoId(url) {
+      const regex = /(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+      const match = url.match(regex);
+      return match ? match[1] : null;
+    }
+
+    getThumbBtn.addEventListener('click', () => {
+      const videoId = extractVideoId(urlInput.value);
+      if (videoId) {
+        currentVideoId = videoId;
+        const mqUrl = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+        previewDiv.innerHTML = `<img src="${mqUrl}" style="max-width:100%"><p>✅ Thumbnail preview</p><p style="font-size:12px;color:#666">HD may not be available for all videos</p>`;
+        qualityBtns.style.display = 'flex';
+      } else {
+        alert('Invalid YouTube URL');
+      }
+    });
+
+    function downloadThumbnail(quality) {
+      let url = '';
+      if (quality === 'hd') url = `https://img.youtube.com/vi/${currentVideoId}/maxresdefault.jpg`;
+      else url = `https://img.youtube.com/vi/${currentVideoId}/hqdefault.jpg`;
+      
+      fetch(url)
+        .then(res => res.blob())
+        .then(blob => {
+          const dataUrl = URL.createObjectURL(blob);
+          window.redirectToShortlink(dataUrl, `thumbnail_${quality}.jpg`, "youtube-thumbnail");
+        })
+        .catch(() => alert('Error downloading thumbnail'));
+    }
+
+    document.getElementById('hdBtn').addEventListener('click', () => downloadThumbnail('hd'));
+    document.getElementById('mqBtn').addEventListener('click', () => downloadThumbnail('mq'));
+  </script>
+</body>
+</html>

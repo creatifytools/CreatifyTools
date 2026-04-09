@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PNG to JPG Converter | CreatifyTools</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="tool-page-container">
+    <a href="../index.html" class="back-link">← Back to Tools</a>
+    <div class="tool-card-custom">
+      <h1>📸 PNG → JPG Converter</h1>
+      <p>Convert PNG images to JPG format</p>
+      <input type="file" id="upload" accept="image/png">
+      <canvas id="canvas" style="display:none"></canvas>
+      <div class="preview-area" id="preview"></div>
+      <button id="convertBtn" class="btn">Convert to JPG</button>
+      <button id="downloadBtn" class="btn" style="display:none">Download JPG</button>
+    </div>
+  </div>
+  <script src="../js/script.js"></script>
+  <script>
+    const upload = document.getElementById('upload');
+    const canvas = document.getElementById('canvas');
+    const previewDiv = document.getElementById('preview');
+    const convertBtn = document.getElementById('convertBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
+    let jpgDataUrl = null;
+
+    upload.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          const img = new Image();
+          img.onload = () => {
+            previewDiv.innerHTML = `<img src="${img.src}" style="max-width:100%"><p>✅ PNG loaded</p>`;
+            convertBtn.style.display = 'inline-block';
+            downloadBtn.style.display = 'none';
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0);
+            jpgDataUrl = canvas.toDataURL('image/jpeg', 0.9);
+          };
+          img.src = ev.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    convertBtn.addEventListener('click', () => {
+      if (jpgDataUrl) {
+        previewDiv.innerHTML += `<div style="margin-top:20px"><img src="${jpgDataUrl}" style="max-width:100%"><p>✨ Converted to JPG</p></div>`;
+        downloadBtn.style.display = 'inline-block';
+      }
+    });
+
+    downloadBtn.addEventListener('click', () => {
+      if (jpgDataUrl) {
+        window.redirectToShortlink(jpgDataUrl, "converted.jpg", "png-to-jpg");
+      }
+    });
+  </script>
+</body>
+</html>

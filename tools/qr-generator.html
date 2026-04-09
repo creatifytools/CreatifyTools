@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Generator | CreatifyTools</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+  <div class="tool-page-container">
+    <a href="../index.html" class="back-link">← Back to Tools</a>
+    <div class="tool-card-custom" style="text-align: center;">
+      <h1>📲 QR Code Generator</h1>
+      <p>Enter text or URL to generate QR code</p>
+      <textarea id="textInput" rows="3" placeholder="Enter text, URL, or any data..."></textarea>
+      <button id="generateBtn" class="btn">Generate QR Code</button>
+      <button id="downloadBtn" class="btn" style="display:none">Download QR Code</button>
+      <div id="qrcode" style="display: flex; justify-content: center; margin-top: 20px;"></div>
+    </div>
+  </div>
+  <script src="../js/script.js"></script>
+  <script>
+    let qrDataUrl = null;
+    const generateBtn = document.getElementById('generateBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const textInput = document.getElementById('textInput');
+    const qrDiv = document.getElementById('qrcode');
+
+    generateBtn.addEventListener('click', () => {
+      const text = textInput.value.trim();
+      if (!text) {
+        alert('Please enter some text or URL');
+        return;
+      }
+      qrDiv.innerHTML = '';
+      new QRCode(qrDiv, {
+        text: text,
+        width: 200,
+        height: 200,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+      });
+      setTimeout(() => {
+        const canvas = qrDiv.querySelector('canvas');
+        if (canvas) {
+          qrDataUrl = canvas.toDataURL('image/png');
+          downloadBtn.style.display = 'inline-block';
+        }
+      }, 100);
+    });
+
+    downloadBtn.addEventListener('click', () => {
+      if (qrDataUrl) {
+        window.redirectToShortlink(qrDataUrl, "qrcode.png", "qr-generator");
+      }
+    });
+  </script>
+</body>
+</html>

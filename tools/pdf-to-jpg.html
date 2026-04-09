@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PDF to JPG Converter | CreatifyTools</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+  <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';</script>
+</head>
+<body>
+  <div class="tool-page-container">
+    <a href="../index.html" class="back-link">← Back to Tools</a>
+    <div class="tool-card-custom" style="text-align: center;">
+      <h1>🖼️ PDF to JPG (Preview Demo)</h1>
+      <p>Upload PDF to preview first page as JPG</p>
+      <input type="file" id="upload" accept="application/pdf">
+      <canvas id="canvas" style="display:none"></canvas>
+      <div class="preview-area" id="preview"></div>
+      <button id="convertBtn" class="btn">Preview as JPG</button>
+      <button id="downloadBtn" class="btn" style="display:none">Download JPG</button>
+      <p style="margin-top: 16px; color: #666; font-size: 0.85rem;">Note: This is a preview tool. For full conversion, use dedicated software.</p>
+    </div>
+  </div>
+  <script src="../js/script.js"></script>
+  <script>
+    const upload = document.getElementById('upload');
+    const convertBtn = document.getElementById('convertBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const previewDiv = document.getElementById('preview');
+    const canvas = document.getElementById('canvas');
+    let jpgDataUrl = null;
+
+    convertBtn.addEventListener('click', () => {
+      const file = upload.files[0];
+      if (!file) {
+        alert('Please select a PDF file');
+        return;
+      }
+      previewDiv.innerHTML = '<p>Loading PDF preview...</p>';
+      const fileReader = new FileReader();
+      fileReader.onload = function() {
+        const typedarray = new Uint8Array(this.result);
+        pdfjsLib.getDocument(typedarray).promise.then(pdf => {
+          pdf.getPage(1).then(page => {
+            const viewport = page.getViewport({ scale: 1.5 });
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+            const ctx = canvas.getContext('2d');
+            const renderContext = { canvasContext: ctx, viewport: viewport };
+            page.render(renderContext).promise.then(() => {
+              jpgDataUrl = canvas.toDataURL('image/jpeg', 0.9);
+              previewDiv.innerHTML = `<img src="${jpgDataUrl}" style="max-width:100%"><p>✅ First page preview as JPG</p>`;
+              downloadBtn.style.display = 'inline-block';
+            });
+          });
+        }).catch(() => {
+          previewDiv.innerHTML = '<p>Error loading PDF</p>';
+        });
+      };
+      fileReader.readAsArrayBuffer(file);
+    });
+
+    downloadBtn.addEventListener('click', () => {
+      if (jpgDataUrl) {
+        window.redirectToShortlink(jpgDataUrl, "pdf_preview.jpg", "pdf-to-jpg");
+      }
+    });
+  </script>
+</body>
+</html>
