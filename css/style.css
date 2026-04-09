@@ -1,0 +1,508 @@
+/* ========================================
+   CreatifyTools - Main Stylesheet
+   Theme: Red (#FF3B3B) & White
+   ======================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: #FFFFFF;
+  color: #111111;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ========== NAVBAR ========== */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 20px 0;
+  border-bottom: 1px solid #f0f0f0;
+  position: relative;
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #FF3B3B;
+  letter-spacing: -0.5px;
+  transition: transform 0.2s ease;
+}
+
+.logo:hover {
+  transform: scale(1.02);
+}
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.nav-links a {
+  text-decoration: none;
+  font-weight: 500;
+  color: #111;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #FF3B3B;
+  transition: width 0.2s ease;
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+  width: 100%;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: #FF3B3B;
+}
+
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: #111;
+}
+
+/* ========== HERO SECTION ========== */
+.hero {
+  text-align: center;
+  padding: 80px 0 60px;
+  background: linear-gradient(135deg, #fff 0%, #fff5f5 100%);
+}
+
+.hero h1 {
+  font-size: 3.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #111 0%, #FF3B3B 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  margin-bottom: 20px;
+  animation: fadeInUp 0.6s ease;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  color: #4a4a4a;
+  max-width: 600px;
+  margin: 0 auto;
+  animation: fadeInUp 0.6s ease 0.1s backwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========== SECTION TITLES ========== */
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 56px 0 32px 0;
+}
+
+.section-title .title-icon {
+  font-size: 2rem;
+}
+
+.section-title h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  position: relative;
+  padding-left: 16px;
+  border-left: 5px solid #FF3B3B;
+}
+
+/* ========== CARD GRID ========== */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 28px;
+  margin-bottom: 48px;
+}
+
+.tool-card {
+  background: #fff;
+  border-radius: 24px;
+  padding: 28px 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+  border: 1px solid #f0f0f0;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  color: #111;
+  position: relative;
+  overflow: hidden;
+}
+
+.tool-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #FF3B3B;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.tool-card:hover::before {
+  transform: scaleX(1);
+}
+
+.tool-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 30px -12px rgba(255, 59, 59, 0.2);
+  border-color: #FF3B3B30;
+}
+
+.tool-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  transition: transform 0.2s ease;
+}
+
+.tool-card:hover .tool-icon {
+  transform: scale(1.1);
+}
+
+.tool-card h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.tool-card p {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* ========== BUTTONS ========== */
+.btn {
+  background: #FF3B3B;
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 40px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-block;
+  text-decoration: none;
+  font-family: inherit;
+  box-shadow: 0 2px 4px rgba(255, 59, 59, 0.2);
+}
+
+.btn:hover {
+  background: #e02e2e;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(255, 59, 59, 0.3);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 2px solid #FF3B3B;
+  color: #FF3B3B;
+  box-shadow: none;
+}
+
+.btn-secondary:hover {
+  background: #FF3B3B;
+  color: white;
+}
+
+/* ========== FOOTER ========== */
+footer {
+  border-top: 1px solid #eee;
+  padding: 48px 0 32px;
+  margin-top: 60px;
+  background: #fafafa;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: #111;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+  color: #FF3B3B;
+}
+
+footer p {
+  text-align: center;
+  color: #888;
+  font-size: 0.85rem;
+}
+
+/* ========== TOOL PAGE STYLES ========== */
+.tool-page-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.back-link {
+  color: #FF3B3B;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 32px;
+  font-weight: 500;
+  transition: gap 0.2s ease;
+}
+
+.back-link:hover {
+  gap: 12px;
+  color: #e02e2e;
+}
+
+.tool-card-custom {
+  background: #fafafa;
+  border-radius: 32px;
+  padding: 36px;
+  border: 1px solid #eee;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.tool-card-custom h1 {
+  font-size: 2rem;
+  margin-bottom: 12px;
+  color: #111;
+}
+
+.tool-card-custom > p {
+  color: #666;
+  margin-bottom: 24px;
+}
+
+input, textarea, select {
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 16px;
+  border: 1px solid #ddd;
+  font-family: inherit;
+  margin: 12px 0;
+  transition: border 0.2s ease;
+  font-size: 1rem;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: #FF3B3B;
+  box-shadow: 0 0 0 3px rgba(255, 59, 59, 0.1);
+}
+
+.preview-area {
+  margin: 24px 0;
+  text-align: center;
+}
+
+.preview-area img {
+  max-width: 100%;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 4px solid #f0f0f0;
+  border-top: 4px solid #FF3B3B;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
+  display: none;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ========== RESPONSIVE DESIGN ========== */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 20px;
+  }
+  
+  .navbar {
+    flex-direction: row;
+  }
+  
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background: white;
+    flex-direction: column;
+    padding: 20px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    border-radius: 16px;
+    z-index: 1000;
+  }
+  
+  .nav-links.show {
+    display: flex;
+  }
+  
+  .mobile-menu-btn {
+    display: block;
+  }
+  
+  .hero h1 {
+    font-size: 2.2rem;
+  }
+  
+  .hero p {
+    font-size: 1rem;
+  }
+  
+  .section-title h2 {
+    font-size: 1.5rem;
+  }
+  
+  .card-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+  }
+  
+  .tool-card-custom {
+    padding: 24px;
+  }
+  
+  .tool-card-custom h1 {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .hero {
+    padding: 50px 0 40px;
+  }
+  
+  .btn {
+    padding: 10px 20px;
+    font-size: 0.85rem;
+  }
+}
+
+/* ========== ABOUT & CONTACT PAGE ========== */
+.page-hero {
+  padding: 60px 0 40px;
+}
+
+.page-hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #FF3B3B;
+}
+
+.page-hero p {
+  font-size: 1.1rem;
+  color: #444;
+  max-width: 800px;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.contact-form-container {
+  max-width: 600px;
+  background: #f9f9f9;
+  padding: 32px;
+  border-radius: 24px;
+  margin-top: 20px;
+}
+
+.contact-info {
+  margin-top: 30px;
+  color: #444;
+}
+
+.contact-info p {
+  margin: 8px 0;
+}
+
+/* ========== DOWNLOAD PAGE ========== */
+.download-card {
+  max-width: 500px;
+  background: white;
+  border-radius: 32px;
+  padding: 48px 32px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f0f0f0;
+  margin: 80px auto;
+}
+
+.download-card .checkmark {
+  font-size: 64px;
+  margin-bottom: 20px;
+}
+
+.download-card h2 {
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+
+.download-card p {
+  color: #666;
+  margin-bottom: 32px;
+}
